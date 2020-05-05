@@ -1,0 +1,55 @@
+---
+title: "A2_Sampling_Strategy_Water_Quality_M+E_"
+author: "Max Diamond"
+date: "5/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library (DeclareDesign)
+library (knitr)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(dplyr)
+library(kableExtra)
+```
+
+Summary: The water indicator accounts for standard measures that dictate overall quality, paying particular attention to turbidity, amount of suspended solids, temperature, and nitrate levels. It will rank the farm on a scale of 1-100 to evaluate current standards and set standards for progress and improvements.
+
+
+1. The reference point is the water quality in surrounding areas effected by coffee production in Papua New Guinea. The population, in this case the local watershed, consists of nearby water sources that would be influenced by agricultural management practices. Of the many potential sources to conduct data collection on water quality, 30 random sites are selected that encompass the variety of water bodies found nearby coffee farms in PNG. The measurement from 0-100 will be broken up into 5 distinct categories: pristine, good condition, compromised, severely compromised, requires immediate restoration.
+
+```{r}
+#2. Code of hypothetical population 
+set.seed(50)
+#taking a sample population that is scored on a scale from 1-100
+population <- declare_population(
+  water= add_level(N=30,
+                   score=sample(1:100, N, replace = TRUE),
+                   dist=draw_binary(N=N, prob=.5))
+)
+```
+
+3.**Challenge in drawing a representative sample
+
+A significant issue to draw a representative sample selection bias pertaining to collection sites for water quality data measurement.  Taking random samples from a variety of water bodies will aim to reduce bias and ideally demonstrate what areas are most impacted by coffee production. The water bodies category It accounts for the combination of public and private lands, topography, and type of collection site: rivers, streams, standing water bodies, and wells.
+
+```{r}
+#4. reporting probabilities
+reporting <- declare_assignment(blocks = water_bodies, 
+                                assignment_variable = "tested",
+                                block_prob = c(0.23, .74))
+```
+
+5. Sampling procedure 
+
+Sampling will be done via the stratified sampling method. This strives to reduce bias in the selection of sites, aiming to provide a representative picture of how water quality on the whole is affected in nearby areas. Samping will indicate whether the water quality test was done on private or public land. It includes what type of water body the sample was taken from. As a result, the aggregate number of water quality extracted from the various sites will be randomly drawn and account for the inherent variation of sites and scale that the water is effected by coffee producition.
+
+```{r}
+#6. Sampling procedure
+```
+
+
